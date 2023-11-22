@@ -150,10 +150,10 @@ class TestAccountService(TestCase):
         resp = self.client.put(
             f"{BASE_URL}/{new_account['id']}", json=new_account
         )
-        
+
         updated_account = resp.get_json()
         self.assertEqual(updated_account["name"], "Test Name")
-    
+
     def test_delete_an_account(self):
         """ It should delete an account """
         accounts = self._create_accounts(5)
