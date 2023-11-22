@@ -138,3 +138,20 @@ class TestAccountService(TestCase):
         """ It should return 404 when trying to read an account that was not found """
         resp = self.client.get(f"{BASE_URL}/0")
         self.assertEqual(resp.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_update_an_account(self):
+        """ It should update an account """
+        account = AccountFactory()
+        resp = self.client.post(BASE_URL, json=account.serialize())
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+
+        new_account = resp.get_json()
+        new_account["name"] = "Test Name"
+        resp = self.client.put(
+            f"{BASE_URL}/{new_account['id']}", json=new_account
+        )
+        
+        updated_account = resp.get_json()
+        self.assertEqual(updated_account["name"], "Test Name")
+    
+
